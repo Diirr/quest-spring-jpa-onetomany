@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Date;
+import javax.persistence.*;
 
 @Entity
 public class Wizard {
@@ -19,7 +20,21 @@ public class Wizard {
     private String biography;
     private boolean muggle;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
+    @JoinColumn(name = "name", nullable = false)
+    private School school;
+
     public Wizard() {
+    }
+
+    public Wizard (String firstName, String lastName, Date birthday, String birthPlace, String biography, boolean muggle, School school){
+    	this.firstName=firstName;
+	this.lastName=lastName;
+	this.birthday=birthday;
+	this.birthPlace=birthPlace;
+	this.biography=biography;
+	this.muggle=muggle;
+	this.school=school;
     }
 
     public Long getId() {
@@ -76,5 +91,13 @@ public class Wizard {
 
     public void setMuggle(boolean muggle) {
         this.muggle = muggle;
+    }
+
+    public School getSchool(){
+    	return school;
+    }
+
+    public void setSchool(School school){
+    	this.school = school;
     }
 }
